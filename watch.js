@@ -65,6 +65,8 @@ async function scan(browser, url) {
       if (m) hits.push(src.slice(Math.max(0, m.index - 80), m.index + 120).replace(/\s+/g, ' '));
     }
     const ok = status > 0 && status < 400 && text.length > 100;
+    if (!ok || process.env.DEBUG) console.log(`  page text: ${text.slice(0, 400).replace(/\s+/g, ' ')}`);
+    if (process.env.DEBUG) bodies.forEach((b, i) => console.log(`  api[${i}]: ${b.slice(0, 300).replace(/\s+/g, ' ')}`));
     console.log(`${url} -> HTTP ${status}, ${text.length} chars text, ${bodies.length} API responses, ${hits.length} hits`);
     return { ok, hits };
   } catch (e) {
